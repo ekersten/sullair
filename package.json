@@ -14,5 +14,17 @@
     "laravel-mix": "^0.6.0",
     "lodash": "^4.16.2",
     "vue": "^2.0.1"
-  }
+  },
+  "name": "sullair",
+  "description": "<p align=\"center\"><img src=\"https://laravel.com/assets/img/components/logo-laravel.svg\"></p>",
+  "version": "1.0.0",
+  "main": "webpack.mix.js",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {
+    "gulp": "^3.9.1"
+  },
+  "author": "Eric Keresten <eric.kersten@egoargentina.com>",
+  "license": "ISC"
 }
