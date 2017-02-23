@@ -1,0 +1,19 @@
+{
+  "name": "Sullair",
+  "description": "Sullair Website",
+  "main": "",
+  "authors": [
+    "Eric Kersten <eric.kersten@egoargentina.com>"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "resources/assets/vendor",
+    "test",
+    "tests"
+  ]
+}
