@@ -171,6 +171,7 @@ return [
         Intervention\Image\ImageServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Cartalyst\Sentinel\Laravel\SentinelServiceProvider::class,
+        JeroenNoten\LaravelAdminLte\ServiceProvider::class,
 
 
         /*

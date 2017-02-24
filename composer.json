@@ -8,6 +8,7 @@
         "php": ">=5.6.4",
         "cartalyst/sentinel": "^2.0",
         "intervention/image": "^2.3",
+        "jeroennoten/laravel-adminlte": "^1.19",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "^5.3.0",
