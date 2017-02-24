@@ -2,6 +2,7 @@
 
 namespace Modules\Admin\Http\Controllers;
 
+use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
@@ -72,6 +73,26 @@ class AdminController extends Controller
 
     public function login(Request $request) {
         return view('admin::login');
+    }
+
+    public function doLogin(Request $request) {
+        $loginResult = Sentinel::authenticate(array(
+            'email'    => $request->input('email'),
+            'password' => $request->input('password'),
+        ));
+
+        if ($loginResult !== false) {
+            return redirect()->route('admin.dashboard');
+        } else {
+            return back()->withInput();
+        }
+
+    }
+
+    public function logout() {
+        Sentinel::logout();
+
+        return redirect()->route('admin.login')->with('flashSuccess', 'You have succesfully logged out');
     }
 
     public function email(Request $request) {
