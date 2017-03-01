@@ -39,7 +39,7 @@
                                     {{ \Carbon\Carbon::setLocale(config('app.locale')) }}
                                     {{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $item->last_login)->diffForHumans() }}
                                     @else
-                                    Never
+                                    {{ trans('admin::users.never') }}
                                     @endif
                                 </td>
                                 <td class="text-center">

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\Admin\Entities\User;
+use Modules\Admin\Http\Requests\UserRequest;
 
 class UserController extends Controller
 {
@@ -36,7 +37,7 @@ class UserController extends Controller
      * @param  Request $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
         $credentials = [
             'first_name' => $request->input('first_name', null),
