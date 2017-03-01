@@ -28,22 +28,22 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($items as $item)
+                        @foreach($users as $user)
                             <tr role="row">
-                                <td class="text-center">{{ $item->id }}</td>
-                                <td>{{ $item->first_name }}</td>
-                                <td>{{ $item->last_name }}</td>
-                                <td>{{ $item->email }}</td>
+                                <td class="text-center">{{ $user->id }}</td>
+                                <td>{{ $user->first_name }}</td>
+                                <td>{{ $user->last_name }}</td>
+                                <td>{{ $user->email }}</td>
                                 <td>
-                                    @if($item->last_login)
+                                    @if($user->last_login)
                                     {{ \Carbon\Carbon::setLocale(config('app.locale')) }}
-                                    {{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $item->last_login)->diffForHumans() }}
+                                    {{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $user->last_login)->diffForHumans() }}
                                     @else
                                     {{ trans('admin::users.never') }}
                                     @endif
                                 </td>
                                 <td class="text-center">
-                                    <a class="btn btn-warning" href="{{ route('users.edit', $item->id) }}"><i class="fa fa-pencil"></i></a>
+                                    <a class="btn btn-warning" href="{{ route('users.edit', $user->id) }}"><i class="fa fa-pencil"></i></a>
                                     <a class="btn btn-danger" href="delete"><i class="fa fa-trash"></i></a>
                                 </td>
                             </tr>

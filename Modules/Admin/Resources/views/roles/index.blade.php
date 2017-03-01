@@ -25,12 +25,12 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($items as $item)
+                        @foreach($roles as $role)
                             <tr>
-                                <td class="text-center">{{ $item->id }}</td>
-                                <td>{{ $item->name }}</td>
+                                <td class="text-center">{{ $role->id }}</td>
+                                <td>{{ $role->name }}</td>
                                 <td class="text-center">
-                                    <a class="btn btn-warning" href="edit"><i class="fa fa-pencil"></i></a>
+                                    <a class="btn btn-warning" href="{{ route('roles.edit', $role->id) }}"><i class="fa fa-pencil"></i></a>
                                     <a class="btn btn-danger" href="delete"><i class="fa fa-trash"></i></a>
                                 </td>
                             </tr>

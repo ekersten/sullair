@@ -19,7 +19,7 @@ class UserController extends Controller
     {
         $users = User::all();
         return view('admin::users.index', [
-            'items' => $users
+            'users' => $users
         ]);
     }
 
@@ -29,7 +29,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('admin::users.create');
+        return view('admin::users.edit');
     }
 
     /**
@@ -66,9 +66,11 @@ class UserController extends Controller
      * Show the form for editing the specified resource.
      * @return Response
      */
-    public function edit()
+    public function edit(User $user)
     {
-        return view('admin::users.edit');
+        return view('admin::users.edit', [
+            'user' => $user
+        ]);
     }
 
     /**
@@ -76,8 +78,9 @@ class UserController extends Controller
      * @param  Request $request
      * @return Response
      */
-    public function update(Request $request)
+    public function update(UserRequest $request, User $user)
     {
+        dd($user);
     }
 
     /**
