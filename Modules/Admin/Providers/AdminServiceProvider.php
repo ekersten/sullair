@@ -2,9 +2,11 @@
 
 namespace Modules\Admin\Providers;
 
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 use Modules\Admin\Http\Middleware\AdminMiddleware;
+use JeroenNoten\LaravelAdminLte\Events\BuildingMenu;
 
 
 class AdminServiceProvider extends ServiceProvider
@@ -21,13 +23,61 @@ class AdminServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot(Router $router)
+    public function boot(Router $router, Dispatcher $events)
     {
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();
 
         $router->aliasMiddleware('admin', AdminMiddleware::class);
+
+        $events->listen(BuildingMenu::class, function (BuildingMenu $event) {
+            $event->menu->add('USERS & ROLES');
+            $event->menu->add([
+                'text' => 'Users',
+                'url' => '#',
+                'icon' => 'user',
+                'submenu' => [
+                    [
+                        'text' => 'Show',
+                        'url'  => 'admin/users',
+                        'icon' => 'eye'
+                    ],
+                    [
+                        'text' => 'Create',
+                        'url'  => 'admin/users/create',
+                        'icon' => 'plus'
+                    ]
+                ]
+            ]);
+
+            $event->menu->add([
+                'text' => 'Roles',
+                'url' => '#',
+                'icon' => 'users',
+                'submenu' => [
+                [
+                    'text' => 'Show',
+                    'url'  => 'admin/roles',
+                    'icon' => 'eye'
+                ],
+                [
+                    'text' => 'Create',
+                    'url'  => 'admin/roles/create',
+                    'icon' => 'plus'
+                ]
+            ]
+            ]);
+        });
+
+        /*
+         * 'ACCOUNT SETTINGS',
+        [
+            'text' => 'Profile',
+            'url'  => 'admin/settings',
+            'icon' => 'user',
+        ],
+         * */
 
     }
 
