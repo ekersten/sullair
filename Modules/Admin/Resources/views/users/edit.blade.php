@@ -56,7 +56,7 @@
 
                 </div>
                 <div class="box-footer">
-                    {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
+                    {!! Form::submit(trans('admin::admin.save'), ['class' => 'btn btn-primary']) !!}
                 </div>
                 {!! Form::close() !!}
             </div>

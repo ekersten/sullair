@@ -35,14 +35,12 @@ class UserRequest extends FormRequest
     public function messages()
     {
         return [
-            'first_name.required'           => trans('admin::users.first_name_required'),
-            'last_name.required'            => trans('admin::users.last_name_required'),
-            'email.required'                => trans('admin::users.email_required'),
-            'email.email'                   => trans('admin::users.email_email'),
-            'email.unique'                  => trans('admin::users.email_unique'),
-            'password.required'             => trans('admin::users.password_required'),
-            'password_confirm.required'     => trans('admin::users.password_confirm_required'),
-            'password_confirm.same'         => trans('admin::users.password_confirm_same'),
+            'required' => trans('admin::admin.field_required'),
+            'email' => trans('admin::admin.field_email'),
+            'unique' => trans('admin::admin.field_unique'),
+            'same' => trans('admin::admin.field_same'),
         ];
+
+
     }
 }

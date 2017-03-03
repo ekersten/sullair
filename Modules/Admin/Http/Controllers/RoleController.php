@@ -17,7 +17,7 @@ class RoleController extends Controller
     {
         $roles = Role::all();
         return view('admin::roles.index', [
-            'items' => $roles
+            'roles' => $roles
         ]);
     }
 
@@ -27,7 +27,7 @@ class RoleController extends Controller
      */
     public function create()
     {
-        return view('admin::create');
+        return view('admin::roles.edit');
     }
 
     /**

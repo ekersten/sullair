@@ -32,39 +32,38 @@ class AdminServiceProvider extends ServiceProvider
         $router->aliasMiddleware('admin', AdminMiddleware::class);
 
         $events->listen(BuildingMenu::class, function (BuildingMenu $event) {
-            $event->menu->add('USERS & ROLES');
+            $event->menu->add(trans('admin::admin.main_nav'));
             $event->menu->add([
-                'text' => 'Users',
+                'text'      => trans('admin::admin.dashboard'),
+                'url'       => 'admin/',
+                'active'    => ['admin/'],
+                'icon'      => 'tachometer'
+            ]);
+            $event->menu->add(trans('admin::admin.users_and_roles'));
+            $event->menu->add([
+                'text' => trans('admin::users.users'),
                 'url' => '#',
                 'icon' => 'user',
                 'submenu' => [
                     [
-                        'text' => 'Show',
-                        'url'  => 'admin/users',
-                        'icon' => 'eye'
-                    ],
-                    [
-                        'text' => 'Create',
-                        'url'  => 'admin/users/create',
-                        'icon' => 'plus'
+                        'text'      => trans('admin::admin.show'),
+                        'url'       => 'admin/users',
+                        'active'    => ['admin/users'],
+                        'icon'      => 'bars'
                     ]
                 ]
             ]);
 
             $event->menu->add([
-                'text' => 'Roles',
+                'text' => trans('admin::roles.roles'),
                 'url' => '#',
                 'icon' => 'users',
                 'submenu' => [
                 [
-                    'text' => 'Show',
-                    'url'  => 'admin/roles',
-                    'icon' => 'eye'
-                ],
-                [
-                    'text' => 'Create',
-                    'url'  => 'admin/roles/create',
-                    'icon' => 'plus'
+                    'text'      => trans('admin::admin.show'),
+                    'url'       => 'admin/roles',
+                    'active'    => ['admin/roles'],
+                    'icon'      => 'bars'
                 ]
             ]
             ]);
