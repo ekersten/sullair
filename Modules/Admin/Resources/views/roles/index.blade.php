@@ -82,24 +82,21 @@
 @stop
 
 @section('css')
-    {{ Html::style('//cdn.datatables.net/v/bs/dt-1.10.13/datatables.min.css') }}
-    {{ Html::style('//cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.35.3/css/bootstrap-dialog.min.css') }}
-    {{ Html::style('//cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.3/toastr.min.css') }}
+    {{ Html::style('modules/admin/vendor/datatables/media/css/jquery.dataTables.min.css') }}
+    {{ Html::style('modules/admin/vendor/datatables/media/css/dataTables.bootstrap.min.css') }}
+    {{ Html::style('modules/admin/vendor/bootstrap3-dialog/dist/css/bootstrap-dialog.min.css') }}
+    {{ Html::style('modules/admin/vendor/toastr/toastr.min.css') }}
 @stop
 
 @section('js')
-    {{ Html::script('//cdn.datatables.net/v/bs/dt-1.10.13/datatables.min.js') }}
-    {{ Html::script('//cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.35.3/js/bootstrap-dialog.min.js') }}
-    {{ Html::script('//cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.3/toastr.min.js') }}
+    {{ Html::script('modules/admin/vendor/datatables/media/js/jquery.dataTables.min.js') }}
+    {{ Html::script('modules/admin/vendor/datatables/media/js/dataTables.bootstrap.min.js') }}
+    {{ Html::script('modules/admin/vendor/bootstrap3-dialog/dist/js/bootstrap-dialog.min.js') }}
+    {{ Html::script('modules/admin/vendor/toastr/toastr.min.js') }}
+    {{ Html::script('modules/admin/js/admin.js') }}
     <script>
         $(function () {
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('input[name="_token"]').attr('value')
-                }
-            });
-
-            $('#mainTable').DataTable({
+            $('#mainTable').dataTable({
                 language: {
                     url: '{{ trans('admin::admin.datatables_lang') }}'
                 }
