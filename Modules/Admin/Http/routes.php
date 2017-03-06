@@ -10,7 +10,7 @@ Route::group(['middleware' => 'web', 'prefix' => 'admin', 'namespace' => 'Module
 
 });
 
-Route::group(['middleware' => ['web', 'admin'], 'prefix' => 'admin', 'namespace' => 'Modules\Admin\Http\Controllers'], function() {
+Route::group(['middleware' => ['web', 'admin'], 'prefix' => 'admin', 'namespace' => 'Modules\Admin\Http\Controllers', 'as' => 'admin.'], function() {
     Route::get('/', ['as' => 'admin.dashboard', 'uses' => 'AdminController@index']);
     Route::resource('users', 'UserController');
     Route::resource('roles', 'RoleController');
