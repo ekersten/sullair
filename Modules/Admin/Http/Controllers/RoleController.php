@@ -2,44 +2,49 @@
 
 namespace Modules\Admin\Http\Controllers;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
 use Modules\Admin\Entities\Role;
-use Modules\Admin\Http\Requests\RoleRequest;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Nwidart\Modules\Facades\Module;
 use Illuminate\Http\JsonResponse;
 
-class RoleController extends Controller
+
+class RoleController extends GenericAdminController
 {
+
+    protected $model = Role::class;
+    protected $index_template = 'admin::roles.index';
+    protected $permissions_prefix = 'roles';
+
     /**
      * Display a listing of the resource.
      * @return Response
      */
-    public function index()
+    /*public function index()
     {
         $roles = Role::all();
         return view('admin::roles.index', [
             'roles' => $roles
         ]);
-    }
+    }*/
 
     /**
      * Show the form for creating a new resource.
      * @return Response
      */
-    public function create()
+    /*public function create()
     {
         return view('admin::roles.edit');
-    }
+    }*/
 
     /**
      * Store a newly created resource in storage.
      * @param  RoleRequest $request
      * @return Response
      */
-    public function store(RoleRequest $request)
+    /*public function store(RoleRequest $request)
     {
         $role = Sentinel::getRoleRepository()->createModel()->create([
             'name' => $request->input('name'),
@@ -49,25 +54,25 @@ class RoleController extends Controller
         if ($role) {
             return redirect()->route('admin.roles.edit', $role->id);
         }
-    }
+    }*/
 
     /**
      * Show the specified resource.
      * @return Response
      */
-    public function show()
+    /*public function show()
     {
         return view('admin::show');
-    }
+    }*/
 
     /**
      * Show the form for editing the specified resource.
      * @param  Role $role
      * @return Response
      */
-    public function edit(Role $role)
+    public function edit($id)
     {
-        $role = Sentinel::findRoleById($role->id);
+        $role = Sentinel::findRoleById($id);
         $permissions = [];
         $modules = Module::getOrdered();
         foreach ($modules as $module) {
@@ -89,8 +94,10 @@ class RoleController extends Controller
      * @param  Role $role
      * @return Response
      */
-    public function update(Request $request, Role $role)
+    public function update(Request $request, $id)
     {
+
+        $role = Role::findOrFail($id);
 
         $role->name = $request->input('name');
         $role->slug = str_slug($request->input('name'));
@@ -120,7 +127,7 @@ class RoleController extends Controller
      * Remove the specified resource from storage.
      * @return Response
      */
-    public function destroy(Request $request, Role $role)
+    /*public function destroy(Request $request, Role $role)
     {
         if($role->delete()){
             $response = trans('admin::admin.deleted');
@@ -135,5 +142,5 @@ class RoleController extends Controller
         else{
             return redirect()->route('admin.products')->with('flashSuccess', $response);
         }
-    }
+    }*/
 }

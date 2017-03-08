@@ -12,7 +12,8 @@
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "^5.3.0",
-        "nwidart/laravel-modules": "^1.16"
+        "nwidart/laravel-modules": "^1.16",
+        "yajra/laravel-datatables-oracle": "7.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

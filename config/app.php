@@ -172,6 +172,7 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Cartalyst\Sentinel\Laravel\SentinelServiceProvider::class,
         JeroenNoten\LaravelAdminLte\ServiceProvider::class,
+        Yajra\Datatables\DatatablesServiceProvider::class,
 
 
         /*

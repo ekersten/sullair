@@ -5,32 +5,17 @@ namespace Modules\Admin\Http\Controllers;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
 use Modules\Admin\Entities\User;
 use Modules\Admin\Http\Requests\UserRequest;
 
-class UserController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     * @return Response
-     */
-    public function index()
-    {
-        $users = User::all();
-        return view('admin::users.index', [
-            'users' => $users
-        ]);
-    }
+class UserController extends GenericAdminController {
 
-    /**
-     * Show the form for creating a new resource.
-     * @return Response
-     */
-    public function create()
-    {
-        return view('admin::users.edit');
-    }
+    protected $model = User::class;
+    protected $index_template = 'admin::users.index';
+    protected $show_template = 'admin::users.show';
+
+    // strtolower(substr($model, strrpos($model, '\\') + 1));
+
 
     /**
      * Store a newly created resource in storage.
@@ -53,14 +38,6 @@ class UserController extends Controller
         }
     }
 
-    /**
-     * Show the specified resource.
-     * @return Response
-     */
-    public function show()
-    {
-        return view('admin::users.show');
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -90,4 +67,5 @@ class UserController extends Controller
     public function destroy()
     {
     }
+
 }

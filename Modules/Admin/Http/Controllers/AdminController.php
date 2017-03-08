@@ -82,7 +82,7 @@ class AdminController extends Controller
         ));
 
         if ($loginResult !== false) {
-            return redirect()->route('admin.dashboard');
+            return redirect()->route('admin.admin.dashboard');
         } else {
             return back()->withInput();
         }

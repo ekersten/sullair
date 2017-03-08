@@ -1,0 +1,19 @@
+{
+  "name": "Admin Module",
+  "homepage": "https://github.com/ekersten/sullair",
+  "authors": [
+    "Eric Kersten <eric.kersten@egoargentina.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "Assets/vendor",
+    "test",
+    "tests"
+  ]
+}

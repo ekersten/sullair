@@ -27,28 +27,6 @@
                             <th class="text-center">{{ trans('admin::users.actions') }}</th>
                         </tr>
                         </thead>
-                        <tbody>
-                        @foreach($users as $user)
-                            <tr role="row">
-                                <td class="text-center">{{ $user->id }}</td>
-                                <td>{{ $user->first_name }}</td>
-                                <td>{{ $user->last_name }}</td>
-                                <td>{{ $user->email }}</td>
-                                <td>
-                                    @if($user->last_login)
-                                    {{ \Carbon\Carbon::setLocale(config('app.locale')) }}
-                                    {{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $user->last_login)->diffForHumans() }}
-                                    @else
-                                    {{ trans('admin::users.never') }}
-                                    @endif
-                                </td>
-                                <td class="text-center">
-                                    <a class="btn btn-warning" href="{{ route('users.edit', $user->id) }}"><i class="fa fa-pencil"></i></a>
-                                    <a class="btn btn-danger" href="delete"><i class="fa fa-trash"></i></a>
-                                </td>
-                            </tr>
-                        @endforeach
-                        </tbody>
                     </table>
                 </div>
             </div>
@@ -66,9 +44,25 @@
     <script>
         $(function () {
             $('#mainTable').DataTable({
-                language: {
-                    url: '{{ trans('admin::admin.datatables_lang') }}'
-                }
+                ajax: {
+                    url: '{{ request()->url() }}',
+                    dataSrc: ''
+                },
+                columnDefs: [
+                    {
+                        targets: -1,
+                        data: null,
+                        defaultContent: '{!! $actions !!}'
+                    }
+                ],
+                columns: [
+                    {data: 'id'},
+                    {data: 'first_name'},
+                    {data: 'last_name'},
+                    {data: 'email'},
+                    {data: 'last_login'},
+                    null
+                ],
             });
         });
     </script>

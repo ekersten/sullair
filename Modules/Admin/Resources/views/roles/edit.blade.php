@@ -35,7 +35,7 @@
                                 <ul class="list-group">
                                     @foreach($permissions[$module->getLowerName()] as $permission)
                                     <li class="list-group-item">
-                                        <label class="checkbox-inline"><input type="checkbox" value="true" @if($role->hasAccess($permission))checked="checked"@endif name="{{ $permission }}">{{ ucwords(str_replace($module->getLowerName().'.', '', $permission))}}</label>
+                                        <label class="checkbox-inline"><input type="checkbox" value="true" @if($role->hasAccess($permission))checked="checked"@endif name="{{ $permission }}">{{ str_replace('.', ' ', ucwords(str_replace($module->getLowerName().'.', '', $permission)))}}</label>
                                     </li>
                                     @endforeach
                                 </ul>
