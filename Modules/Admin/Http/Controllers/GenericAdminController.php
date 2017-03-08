@@ -143,19 +143,22 @@ class GenericAdminController extends Controller {
 
         // agregar la columna de acciones solo si puede editar o eliminar
         $permissions = $this->getPermissions();
+
         if($permissions['update'] || $permissions['delete'] || $this->permissions_prefix == '') {
-            $datatable->addColumn('actions', function($item){
+            $datatable->addColumn('actions', function($item) use($permissions) {
                 $actions = '<div class="btn-group pull-right btn-group-sm" role="group" aria-label="Actions">';
 
-                if($permissions['update'] || $this->permissions_prefix == '') {
-                    $actions .= '<a href="edit" class="btn btn-success" target="_blank"><i class="fa fa-pencil"></i>Ver</a>';
+                if($permissions['update'] == true) {
+                    $actions .= '<a href="edit" class="btn btn-warning" target="_blank"><i class="fa fa-pencil"></i>Ver</a>';
                 }
 
-                if($permissions['delete'] || $this->permissions_prefix == '') {
-                    $actions .= '<a href="delete" class="btn btn-success" target="_blank"><i class="fa fa-trash"></i>Ver</a>';
+                if($permissions['delete'] == true) {
+                    $actions .= '<a href="delete" class="btn btn-error" target="_blank"><i class="fa fa-trash"></i>Ver</a>';
                 }
 
                 $actions .= '</div>';
+
+                return $actions;
             });
         }
 
