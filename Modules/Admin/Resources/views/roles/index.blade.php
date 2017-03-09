@@ -19,9 +19,11 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
-                <div class="box-header"></div>
+                <div class="box-header">
+                    <h1>Hola</h1>
+                </div>
                 <div class="box-body">
-                    <table id="mainTable" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+                    <table id="mainTable" class="table table-striped table-bordered table-hover dt-bootstrap" cellspacing="0" width="100%">
                         <thead>
                         <tr>
                             @foreach($fields as $field)
@@ -52,6 +54,9 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
+                        @foreach($create_fields as $field)
+                            <p>{{ $field['label'] }}</p>
+                        @endforeach
                         <div class="form-group @if ($errors->has('name')) has-error @endif">
                             {!! Form::label('name', trans('admin::roles.name')) !!}
                             {!! Form::text('name', null, array_merge(['class' => 'form-control'])) !!}
@@ -68,4 +73,8 @@
         </div>
     </div>
 
+@stop
+
+@section('extra-js')
+    <script>alert('pepe');</script>
 @stop

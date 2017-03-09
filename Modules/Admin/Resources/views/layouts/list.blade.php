@@ -16,13 +16,16 @@
     {{ Html::script('modules/admin/js/admin.js') }}
 
     <script>
+        alert('lala');
+    </script>
+
+    <script>
         $(function () {
             $('#mainTable').dataTable({
                 processing: true,
                 serverSide: true,
                 responsive: true,
-                autoWidth: false,
-                pageLength: 25,
+                pageLength: 1,
                 pagingType: 'full_numbers',
                 search: {
                     caseInsensitive: true
@@ -30,9 +33,9 @@
                 order: [[2, "asc"]],
                 ajax: '{{ request()->url() }}',
                 columns: [
-                    { data: 'id'},
+                    { data: 'id', searchable: false},
                     { data: 'name'},
-                    { data: 'actions', name: 'actions', orderable: false, searchable: false },
+                    { data: 'actions', orderable: false, searchable: false }
                 ],
                 language: {
                     processing: '<i class="fa fa-cog fa-spin fa-fw loading fa-2x"></i>'

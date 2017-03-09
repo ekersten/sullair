@@ -12,6 +12,7 @@ return [
     'save'                          => 'Grabar',
     'delete'                        => 'Eliminar',
     'confirm'                       => 'Confirmar',
+    'actions'                       => 'Acciones',
     'confirm_delete'                => '¿Está seguro de que desea eliminar éste elemento?',
     'deleted'                       => 'Elemento eliminado con éxito',
     'error_delete'                  => 'Error eliminando el elemento',

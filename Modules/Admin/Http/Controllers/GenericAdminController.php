@@ -19,9 +19,6 @@ class GenericAdminController extends Controller {
 
     protected $permissions_prefix = '';
 
-    protected $list_fields = [];
-
-
     /**
      * Display a listing of the resource.
      * @return Response
@@ -32,15 +29,17 @@ class GenericAdminController extends Controller {
             return $this->getData();
         } else {
             $fields = $this->model::getListFields();
+            $create_fields = $this->model::getCreateFields();
 
             // agregar la columna de acciones solo si puede editar o eliminar
             $permissions = $this->getPermissions();
             if($permissions['update'] || $permissions['delete']) {
-                $fields[] = ['label' => 'Actions'];
+                $fields[] = ['label' => trans('admin::admin.actions')];
             }
 
             return view($this->index_template, [
-                'fields' => $fields
+                'fields' => $fields,
+                'create_fields' => $create_fields
             ]);
         }
 
@@ -145,15 +144,15 @@ class GenericAdminController extends Controller {
         $permissions = $this->getPermissions();
 
         if($permissions['update'] || $permissions['delete'] || $this->permissions_prefix == '') {
-            $datatable->addColumn('actions', function($item) use($permissions) {
-                $actions = '<div class="btn-group pull-right btn-group-sm" role="group" aria-label="Actions">';
+            $datatable->addColumn('actions', function($item) use($permissions, $datatable) {
+                $actions = '<div class="btn-group btn-group-sm" role="group" aria-label="Actions">';
 
                 if($permissions['update'] == true) {
-                    $actions .= '<a href="edit" class="btn btn-warning" target="_blank"><i class="fa fa-pencil"></i>Ver</a>';
+                    $actions .= '<a href="edit" class="btn btn-warning" target="_blank"><i class="fa fa-pencil"></i> ' . trans('admin::admin.edit') .'</a>';
                 }
 
                 if($permissions['delete'] == true) {
-                    $actions .= '<a href="delete" class="btn btn-error" target="_blank"><i class="fa fa-trash"></i>Ver</a>';
+                    $actions .= '<a href="delete" class="btn btn-danger" target="_blank"><i class="fa fa-trash"></i> ' . trans('admin::admin.delete') .'</a>';
                 }
 
                 $actions .= '</div>';
@@ -164,6 +163,6 @@ class GenericAdminController extends Controller {
 
 
 
-        return $datatable->make(true);
+        return $datatable->rawColumns(['actions'])->make(true);
     }
 }
