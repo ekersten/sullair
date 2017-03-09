@@ -9,6 +9,15 @@ class BaseModel extends Model {
     protected static $fields;
     protected static $name;
 
+    private static $field_defaults = [
+        'type' => 'text',
+        'list' => false,
+        'create' => false,
+        'update' => false,
+        'searchable' => false,
+        'orderable' => false,
+    ];
+
     public static function getFields() {
         return self::getFilteredFields();
     }
@@ -30,7 +39,7 @@ class BaseModel extends Model {
             $props['label'] = trans(str_replace('trans::', '', $props['label']));
         }
 
-        return $props;
+        return array_merge(self::$field_defaults, $props);
     }
 
     private static function getFilteredFields($property = null) {
