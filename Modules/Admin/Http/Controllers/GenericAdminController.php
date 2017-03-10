@@ -7,9 +7,11 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\JsonResponse;
-
+use Illuminate\Foundation\Validation\ValidatesRequests;
 
 class GenericAdminController extends Controller {
+
+    use ValidatesRequests;
 
     protected $model = '';
 
@@ -113,8 +115,8 @@ class GenericAdminController extends Controller {
      * @param  Request $request
      * @return Response
      */
-    public function update(Request $request, $id) {
-
+    public function update(Request $request, $id)
+    {
     }
 
     /**
@@ -219,5 +221,17 @@ class GenericAdminController extends Controller {
         }
 
         return false;
+    }
+
+    protected function getValidationArray($fields) {
+        $validation_fields = $this->model::getValidationFields($fields);
+        $return_fields = [];
+
+        foreach($validation_fields as $field => $props) {
+            $return_fields[$field] = $props['validation'];
+        }
+
+        return $return_fields;
+
     }
 }

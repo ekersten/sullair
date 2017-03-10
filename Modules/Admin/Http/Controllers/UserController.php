@@ -7,7 +7,6 @@ use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\Admin\Entities\User;
-use Modules\Admin\Http\Requests\UserRequest;
 
 class UserController extends GenericAdminController {
 

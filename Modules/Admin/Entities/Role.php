@@ -22,6 +22,7 @@ class Role extends BaseModel
             'update' => true,
             'searchable' => true,
             'create' => true,
+            'validation' => 'required|min:3'
         ],
         'slug' => []
     ];

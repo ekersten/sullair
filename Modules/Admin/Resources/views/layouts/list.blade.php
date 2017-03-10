@@ -16,7 +16,7 @@
 
     <script>
         $(function () {
-            var table = $('#mainTable').dataTable({
+            window.table = $('#mainTable').dataTable({
                 processing: true,
                 serverSide: true,
                 responsive: true,

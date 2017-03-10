@@ -68,3 +68,37 @@
     </div>
 
 @stop
+
+@section('extra-js')
+    <script>
+        $('#modalCreate').on('click',  '.btn[type="submit"]', function(e){
+            e.preventDefault();
+
+            // remove previous errors
+            $('.form-group.has-error').removeClass('has-error').find('.help-block').remove();
+
+            var $form = $('#modalCreate form');
+            $.ajax($form.attr('action'), {
+                dataType: 'json',
+                method: $form.attr('method'),
+                data: $form.serialize(),
+                success: function(data) {
+                    window.table.ajax.reload();
+                },
+                error: function (request) {
+                    if(request.status === 422) {
+                        for(errorField in request.responseJSON) {
+                            if(request.responseJSON.hasOwnProperty(errorField)) {
+                                var $field = $('#'+errorField);
+                                var $formGroup = $field.closest('.form-group')
+
+                                $formGroup.addClass('has-error');
+                                $formGroup.append('<p class="help-block">' + request.responseJSON[errorField][0] + '</p>')
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+@stop

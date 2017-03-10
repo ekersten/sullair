@@ -17,8 +17,8 @@ class BaseModel extends Model {
         'searchable' => false,
         'orderable' => false,
         'className' => '',
-        'width' => '100%',
-        'transform' => false
+        'transform' => false,
+        'validation' => ''
     ];
 
     public static function getFields() {
@@ -41,6 +41,10 @@ class BaseModel extends Model {
         return self::getFilteredFields('transform');
     }
 
+    public static function getValidationFields($subset = null){
+        return self::getFilteredFields('validation', $subset);
+    }
+
     private static function processField($props) {
         if(isset($props['label']) && strpos($props['label'], 'trans::') >= 0) {
             $props['label'] = trans(str_replace('trans::', '', $props['label']));
@@ -49,9 +53,13 @@ class BaseModel extends Model {
         return array_merge(self::$field_defaults, $props);
     }
 
-    private static function getFilteredFields($property = null) {
+    private static function getFilteredFields($property = null, $subset= null) {
         $return_fields = [];
-        foreach(static::$fields as $field => $field_props) {
+        $fields = static::$fields;
+        if ($subset !== null) {
+            $fields = $subset;
+        }
+        foreach($fields as $field => $field_props) {
             if(isset($field_props[$property]) && boolval($field_props[$property]) || $property === null) {
                 $return_fields[$field] = static::processField($field_props);
             }

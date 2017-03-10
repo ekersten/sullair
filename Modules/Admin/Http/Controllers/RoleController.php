@@ -28,6 +28,9 @@ class RoleController extends GenericAdminController
 
     public function store(Request $request)
     {
+
+        $this->validate($request, $this->getValidationArray($this->model::getCreateFields()));
+
         $role = Sentinel::getRoleRepository()->createModel()->create([
             'name' => $request->input('name'),
             'slug' => str_slug($request->input('name')),
@@ -43,7 +46,7 @@ class RoleController extends GenericAdminController
      * @param  Role $role
      * @return Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
         $role = Sentinel::findRoleById($id);
         $permissions = [];
