@@ -16,6 +16,9 @@ class BaseModel extends Model {
         'update' => false,
         'searchable' => false,
         'orderable' => false,
+        'className' => '',
+        'width' => '100%',
+        'transform' => false
     ];
 
     public static function getFields() {
@@ -32,6 +35,10 @@ class BaseModel extends Model {
 
     public static function getUpdateFields() {
         return self::getFilteredFields('update');
+    }
+
+    public static function getTransformFields(){
+        return self::getFilteredFields('transform');
     }
 
     private static function processField($props) {

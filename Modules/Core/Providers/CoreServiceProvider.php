@@ -25,7 +25,7 @@ class CoreServiceProvider extends ServiceProvider
         $this->registerConfig();
         $this->registerViews();
 
-        Form::component('bsText', 'core::components.form.text', ['name', 'value' => null, 'attributes' => []]);
+        Form::component('bsText', 'core::components.form.text', ['name', 'label', 'value' => null, 'attributes' => []]);
     }
 
     /**

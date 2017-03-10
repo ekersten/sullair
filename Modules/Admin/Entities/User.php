@@ -2,11 +2,44 @@
 
 namespace Modules\Admin\Entities;
 
-use Illuminate\Database\Eloquent\Model;
+use Modules\Core\Entities\BaseModel;
 
-class User extends Model
+class User extends BaseModel
 {
-    protected $table = 'users';
-
-    protected $fillable = [];
+    protected static $fields = [
+        'id' => [
+            'label' => 'ID',
+            'type' => '',
+            'list' => true,
+            'className' => 'text-center'
+        ],
+        'first_name' => [
+            'label' => 'trans::admin::users.first_name',
+            'type' => 'bsText',
+            'list' => true,
+            'update' => true,
+            'searchable' => true,
+            'create' => true,
+        ],
+        'last_name' => [
+            'label' => 'trans::admin::users.last_name',
+            'type' => 'bsText',
+            'list' => true,
+            'update' => true,
+            'searchable' => true,
+            'create' => true,
+        ],
+        'password' => [
+            'label' => 'trans::admin::users.password',
+            'type' => 'bsText',
+            'update' => true,
+            'create' => true
+        ],
+        'last_login' => [
+            'label' => 'trans::admin::users.last_login',
+            'type' => 'bsText',
+            'list' => true,
+            'transform' => 'timeAgo',
+        ]
+    ];
 }

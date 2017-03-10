@@ -17,6 +17,10 @@ class GenericAdminController extends Controller {
     protected $show_template = '';
     protected $edit_template = '';
 
+    protected $store_route = '';
+    protected $edit_route = '';
+    protected $delete_route = '';
+
     protected $permissions_prefix = '';
 
     /**
@@ -32,14 +36,19 @@ class GenericAdminController extends Controller {
             $create_fields = $this->model::getCreateFields();
 
             // agregar la columna de acciones solo si puede editar o eliminar
-            $permissions = $this->getPermissions();
-            if($permissions['update'] || $permissions['delete']) {
-                $fields[] = ['label' => trans('admin::admin.actions')];
+            if($this->hasActionsColumn()) {
+                $fields['actions'] = [
+                    'label' => trans('admin::admin.actions'),
+                    'searchable' => false,
+                    'orderable' => false,
+                    'className' => 'text-center',
+                ];
             }
 
             return view($this->index_template, [
                 'fields' => $fields,
-                'create_fields' => $create_fields
+                'create_fields' => $create_fields,
+                'store_route' => $this->store_route
             ]);
         }
 
@@ -111,7 +120,7 @@ class GenericAdminController extends Controller {
      * Remove the specified resource from storage.
      * @return Response
      */
-    public function destroy() {
+    public function destroy(Request $request, $id) {
     }
 
     private function getPermissions() {
@@ -136,23 +145,21 @@ class GenericAdminController extends Controller {
             $list_fields[] = $field;
         }
 
-        $items = $this->model::select($list_fields);
-
-        $datatable = app('datatables')->of($items);
+        $datatable = app('datatables')->of($this->model::query());
 
         // agregar la columna de acciones solo si puede editar o eliminar
         $permissions = $this->getPermissions();
 
-        if($permissions['update'] || $permissions['delete'] || $this->permissions_prefix == '') {
-            $datatable->addColumn('actions', function($item) use($permissions, $datatable) {
+        if($this->hasActionsColumn()) {
+            $datatable->addColumn('actions', function($item) use($permissions) {
                 $actions = '<div class="btn-group btn-group-sm" role="group" aria-label="Actions">';
 
                 if($permissions['update'] == true) {
-                    $actions .= '<a href="edit" class="btn btn-warning" target="_blank"><i class="fa fa-pencil"></i> ' . trans('admin::admin.edit') .'</a>';
+                    $actions .= '<a href="' . route($this->edit_route, $item->id) . '" class="btn btn-warning"><i class="fa fa-pencil"></i> ' . trans('admin::admin.edit') .'</a>';
                 }
 
                 if($permissions['delete'] == true) {
-                    $actions .= '<a href="delete" class="btn btn-danger" target="_blank"><i class="fa fa-trash"></i> ' . trans('admin::admin.delete') .'</a>';
+                    $actions .= '<a href="' . route($this->delete_route, $item->id) . '" class="btn btn-danger" rel="delete"><i class="fa fa-trash"></i> ' . trans('admin::admin.delete') .'</a>';
                 }
 
                 $actions .= '</div>';
@@ -161,8 +168,39 @@ class GenericAdminController extends Controller {
             });
         }
 
+        if($this->hasTransformFields()) {
+            $fields = $this->model::getTransformFields();
+            foreach ($fields as $field => $props) {
+                $datatable->editColumn($field, function($item) use($props) {
+                    return call_user_func(array($this, $props['transform']), $item);
+                });
+            }
+        }
 
 
-        return $datatable->rawColumns(['actions'])->make(true);
+        if($this->hasActionsColumn()) {
+            return $datatable->rawColumns(['actions'])->make(true);
+        } else {
+            return $datatable->make(true);
+        }
+
+    }
+
+    private function hasTransformFields() {
+        $fields = array_filter($this->model::getListFields(), function($field){
+            return $field['transform'] !== false;
+        });
+
+        return count($fields) >= 0;
+    }
+
+    private function hasActionsColumn() {
+        $permissions = $this->getPermissions();
+
+        if($permissions['update'] || $permissions['delete'] || $this->permissions_prefix == '') {
+            return true;
+        }
+
+        return false;
     }
 }

@@ -44,12 +44,14 @@ class AdminServiceProvider extends ServiceProvider
                 'text' => trans('admin::users.users'),
                 'url' => '#',
                 'icon' => 'user',
+                'can'       => 'users.read',
                 'submenu' => [
                     [
                         'text'      => trans('admin::admin.show'),
                         'url'       => 'admin/users',
                         'active'    => ['admin/users'],
-                        'icon'      => 'bars'
+                        'icon'      => 'bars',
+                        'can'       => 'users.read',
                     ]
                 ]
             ]);
@@ -58,25 +60,18 @@ class AdminServiceProvider extends ServiceProvider
                 'text' => trans('admin::roles.roles'),
                 'url' => '#',
                 'icon' => 'users',
+                'can'       => 'roles.read',
                 'submenu' => [
                 [
                     'text'      => trans('admin::admin.show'),
                     'url'       => 'admin/roles',
                     'active'    => ['admin/roles'],
-                    'icon'      => 'bars'
+                    'icon'      => 'bars',
+                    'can'       => 'roles.read',
                 ]
             ]
             ]);
         });
-
-        /*
-         * 'ACCOUNT SETTINGS',
-        [
-            'text' => 'Profile',
-            'url'  => 'admin/settings',
-            'icon' => 'user',
-        ],
-         * */
 
     }
 

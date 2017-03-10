@@ -2,6 +2,7 @@
 
 namespace Modules\Admin\Http\Controllers;
 
+use Carbon\Carbon;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -11,18 +12,22 @@ use Modules\Admin\Http\Requests\UserRequest;
 class UserController extends GenericAdminController {
 
     protected $model = User::class;
+
     protected $index_template = 'admin::users.index';
-    protected $show_template = 'admin::users.show';
+    protected $edit_template = 'admin::users.edit';
 
-    // strtolower(substr($model, strrpos($model, '\\') + 1));
+    protected $permissions_prefix = 'users';
 
+    protected $store_route = 'admin.users.store';
+    protected $edit_route = 'admin.users.edit';
+    protected $delete_route = 'admin.users.destroy';
 
     /**
      * Store a newly created resource in storage.
      * @param  Request $request
      * @return Response
      */
-    public function store(UserRequest $request)
+    public function store(Request $request)
     {
         $credentials = [
             'first_name' => $request->input('first_name', null),
@@ -38,34 +43,24 @@ class UserController extends GenericAdminController {
         }
     }
 
-
-    /**
-     * Show the form for editing the specified resource.
-     * @return Response
-     */
-    public function edit(User $user)
-    {
-        return view('admin::users.edit', [
-            'user' => $user
-        ]);
+    protected function timeAgo($row) {
+        if (isset($row->last_login) && $row->last_login !== '') {
+            $dt =  new Carbon($row->last_login);
+            return $dt->diffForHumans();
+        } else {
+            return trans('admin::users.never');
+        }
     }
+
 
     /**
      * Update the specified resource in storage.
      * @param  Request $request
      * @return Response
      */
-    public function update(UserRequest $request, User $user)
+    public function update(Request $request, $id)
     {
         dd($user);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     * @return Response
-     */
-    public function destroy()
-    {
     }
 
 }

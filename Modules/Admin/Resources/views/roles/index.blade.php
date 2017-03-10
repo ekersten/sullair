@@ -1,11 +1,11 @@
 @extends('admin::layouts.list')
 
-@section('title', 'Roles')
+@section('title', trans('admin::roles.roles'))
 
 @section('content_header')
     <div class="row">
         <div class="col-xs-12">
-            <h1>Roles</h1>
+            <h1>{{ trans('admin::roles.roles') }}</h1>
         </div>
     </div>
 @stop
@@ -20,7 +20,6 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
-                    <h1>Hola</h1>
                 </div>
                 <div class="box-body">
                     <table id="mainTable" class="table table-striped table-bordered table-hover dt-bootstrap" cellspacing="0" width="100%">
@@ -42,7 +41,7 @@
     <div class="modal fade" id="modalCreate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                {!! Form::open(['method' => 'POST', 'route' => 'admin.roles.store', 'role' => 'form'])  !!}
+                {!! Form::open(['method' => 'POST', 'route' => $store_route, 'role' => 'form'])  !!}
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">
                         <span aria-hidden="true">&times;</span>
@@ -54,14 +53,9 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        @foreach($create_fields as $field)
-                            <p>{{ $field['label'] }}</p>
+                        @foreach($create_fields as $field => $props)
+                            {!! call_user_func(array('Form', $props['type']), $field, $props['label']) !!}
                         @endforeach
-                        <div class="form-group @if ($errors->has('name')) has-error @endif">
-                            {!! Form::label('name', trans('admin::roles.name')) !!}
-                            {!! Form::text('name', null, array_merge(['class' => 'form-control'])) !!}
-                            @if ($errors->has('name')) <p class="help-block">{{ $errors->first('name') }}</p> @endif
-                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -73,8 +67,4 @@
         </div>
     </div>
 
-@stop
-
-@section('extra-js')
-    <script>alert('pepe');</script>
 @stop

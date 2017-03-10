@@ -2,7 +2,6 @@
 
 namespace Modules\Admin\Http\Controllers;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\Admin\Entities\Role;
@@ -15,36 +14,18 @@ class RoleController extends GenericAdminController
 {
 
     protected $model = Role::class;
+
     protected $index_template = 'admin::roles.index';
+    protected $edit_template = 'admin::roles.edit';
+
     protected $permissions_prefix = 'roles';
 
-    /**
-     * Display a listing of the resource.
-     * @return Response
-     */
-    /*public function index()
-    {
-        $roles = Role::all();
-        return view('admin::roles.index', [
-            'roles' => $roles
-        ]);
-    }*/
+    protected $store_route = 'admin.roles.store';
+    protected $edit_route = 'admin.roles.edit';
+    protected $delete_route = 'admin.roles.destroy';
 
-    /**
-     * Show the form for creating a new resource.
-     * @return Response
-     */
-    /*public function create()
-    {
-        return view('admin::roles.edit');
-    }*/
 
-    /**
-     * Store a newly created resource in storage.
-     * @param  RoleRequest $request
-     * @return Response
-     */
-    /*public function store(RoleRequest $request)
+    public function store(Request $request)
     {
         $role = Sentinel::getRoleRepository()->createModel()->create([
             'name' => $request->input('name'),
@@ -54,16 +35,7 @@ class RoleController extends GenericAdminController
         if ($role) {
             return redirect()->route('admin.roles.edit', $role->id);
         }
-    }*/
-
-    /**
-     * Show the specified resource.
-     * @return Response
-     */
-    /*public function show()
-    {
-        return view('admin::show');
-    }*/
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -127,8 +99,10 @@ class RoleController extends GenericAdminController
      * Remove the specified resource from storage.
      * @return Response
      */
-    /*public function destroy(Request $request, Role $role)
+    public function destroy(Request $request, $id)
     {
+        $role = Role::findOrFail($id);
+
         if($role->delete()){
             $response = trans('admin::admin.deleted');
         }
@@ -142,5 +116,5 @@ class RoleController extends GenericAdminController
         else{
             return redirect()->route('admin.products')->with('flashSuccess', $response);
         }
-    }*/
+    }
 }

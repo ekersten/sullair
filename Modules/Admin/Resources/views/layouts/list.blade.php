@@ -16,16 +16,13 @@
     {{ Html::script('modules/admin/js/admin.js') }}
 
     <script>
-        alert('lala');
-    </script>
-
-    <script>
         $(function () {
-            $('#mainTable').dataTable({
+            var table = $('#mainTable').dataTable({
                 processing: true,
                 serverSide: true,
                 responsive: true,
-                pageLength: 1,
+                autowidth: true,
+                pageLength: 25,
                 pagingType: 'full_numbers',
                 search: {
                     caseInsensitive: true
@@ -33,15 +30,14 @@
                 order: [[2, "asc"]],
                 ajax: '{{ request()->url() }}',
                 columns: [
-                    { data: 'id', searchable: false},
-                    { data: 'name'},
-                    { data: 'actions', orderable: false, searchable: false }
+                    @foreach($fields as $field => $props)
+                    { data: '{{ $field }}', searchable: '{{ (boolval($props['searchable'])) ? 'true' : 'false' }}', orderable: '{{ (boolval($props['orderable'])) ? 'true' : 'false' }}', className: '{{ $props['className'] }}'},
+                    @endforeach
                 ],
                 language: {
                     processing: '<i class="fa fa-cog fa-spin fa-fw loading fa-2x"></i>'
                 }
             });
-
 
             $('#mainTable tbody').on('click','.btn[rel="delete"]',function(e) {
                 e.preventDefault();
