@@ -14,10 +14,10 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
-                @if( isset($user) )
-                    {!! Form::model($user, ['route' => ['users.update', $user->id], 'method' => 'put']) !!}
+                @if( isset($item) )
+                    {!! Form::model($item, ['route' => ['admin.users.update', $item->id], 'method' => 'put']) !!}
                 @else
-                    {!! Form::open(['route' => 'users.store']) !!}
+                    {!! Form::open(['route' => 'admin.users.store']) !!}
                 @endif
 
                 <div class="box-header"></div>

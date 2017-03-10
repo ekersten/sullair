@@ -52,11 +52,9 @@
                     </h4>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
                         @foreach($create_fields as $field => $props)
                             {!! call_user_func(array('Form', $props['type']), $field, $props['label']) !!}
                         @endforeach
-                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('admin::admin.close') }}</button>

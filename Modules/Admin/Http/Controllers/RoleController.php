@@ -20,6 +20,7 @@ class RoleController extends GenericAdminController
 
     protected $permissions_prefix = 'roles';
 
+    protected $index_route = 'admin.roles.index';
     protected $store_route = 'admin.roles.store';
     protected $edit_route = 'admin.roles.edit';
     protected $delete_route = 'admin.roles.destroy';
@@ -33,7 +34,7 @@ class RoleController extends GenericAdminController
         ]);
 
         if ($role) {
-            return redirect()->route('admin.roles.edit', $role->id);
+            return redirect()->route($this->edit_route, $role->id);
         }
     }
 
@@ -54,6 +55,7 @@ class RoleController extends GenericAdminController
         }
 
         return view('admin::roles.edit', [
+            'update_fields' => $this->model::getUpdateFields(),
             'role' => $role,
             'modules' => Module::getOrdered(),
             'permissions' => $permissions
@@ -95,26 +97,4 @@ class RoleController extends GenericAdminController
         return redirect()->route('admin.roles.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     * @return Response
-     */
-    public function destroy(Request $request, $id)
-    {
-        $role = Role::findOrFail($id);
-
-        if($role->delete()){
-            $response = trans('admin::admin.deleted');
-        }
-        else{
-            $response = trans('admin::admin.error_delete');
-        }
-
-        if ($request->ajax() || $request->wantsJson()) {
-            return new JsonResponse($response, 200);
-        }
-        else{
-            return redirect()->route('admin.products')->with('flashSuccess', $response);
-        }
-    }
 }

@@ -18,6 +18,7 @@ class UserController extends GenericAdminController {
 
     protected $permissions_prefix = 'users';
 
+    protected $index_route = 'admin.users.index';
     protected $store_route = 'admin.users.store';
     protected $edit_route = 'admin.users.edit';
     protected $delete_route = 'admin.users.destroy';
@@ -39,7 +40,9 @@ class UserController extends GenericAdminController {
         $user = Sentinel::registerAndActivate($credentials);
 
         if($user) {
-            return redirect()->route('users.index');
+            if ($user) {
+                return redirect()->route($this->edit_route, $user->id);
+            }
         }
     }
 
@@ -52,15 +55,5 @@ class UserController extends GenericAdminController {
         }
     }
 
-
-    /**
-     * Update the specified resource in storage.
-     * @param  Request $request
-     * @return Response
-     */
-    public function update(Request $request, $id)
-    {
-        dd($user);
-    }
 
 }

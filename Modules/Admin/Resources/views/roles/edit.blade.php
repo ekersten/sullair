@@ -17,11 +17,11 @@
                 {!! Form::model($role, ['route' => ['admin.roles.update', $role->id], 'method' => 'put']) !!}
                 <div class="box-header"></div>
                 <div class="box-body">
-                    <div class="form-group @if ($errors->has('name')) has-error @endif">
-                        {!! Form::label('name', trans('admin::roles.name')) !!}
-                        {!! Form::text('name', null, array_merge(['class' => 'form-control'])) !!}
-                        @if ($errors->has('name')) <p class="help-block">{{ $errors->first('name') }}</p> @endif
-                    </div>
+
+                    @foreach($update_fields as $field => $props)
+                        {!! call_user_func(array('Form', $props['type']), $field, $props['label']) !!}
+                    @endforeach
+
                     <div class="row">
                         <div class="col-sm-12">
                             <h3>Permissions</h3>

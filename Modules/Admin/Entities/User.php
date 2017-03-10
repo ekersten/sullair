@@ -31,6 +31,12 @@ class User extends BaseModel
             'orderable' => true,
             'create' => true,
         ],
+        'email' => [
+            'label' => 'trans::admin::users.email',
+            'type' => 'bsText',
+            'update' => true,
+            'create' => true,
+        ],
         'password' => [
             'label' => 'trans::admin::users.password',
             'type' => 'bsPassword',

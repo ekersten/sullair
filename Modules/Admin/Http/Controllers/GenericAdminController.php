@@ -6,7 +6,7 @@ use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-use Modules\Admin\Entities\User;
+use Illuminate\Http\JsonResponse;
 
 
 class GenericAdminController extends Controller {
@@ -17,6 +17,7 @@ class GenericAdminController extends Controller {
     protected $show_template = '';
     protected $edit_template = '';
 
+    protected $index_route = '';
     protected $store_route = '';
     protected $edit_route = '';
     protected $delete_route = '';
@@ -94,7 +95,7 @@ class GenericAdminController extends Controller {
      * Show the form for editing the specified resource.
      * @return Response
      */
-    public function edit($id) {
+    public function edit(Request $request, $id) {
         $item = $this->model::find($id);
         if ($item) {
             if ($request->ajax()) {
@@ -120,7 +121,23 @@ class GenericAdminController extends Controller {
      * Remove the specified resource from storage.
      * @return Response
      */
-    public function destroy(Request $request, $id) {
+    public function destroy(Request $request, $id)
+    {
+        $item = $this->model::findOrFail($id);
+
+        if($item->delete()){
+            $response = trans('admin::admin.deleted');
+        }
+        else{
+            $response = trans('admin::admin.error_delete');
+        }
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return new JsonResponse($response, 200);
+        }
+        else{
+            return redirect()->route($this->index_route)->with('flashSuccess', $response);
+        }
     }
 
     private function getPermissions() {
