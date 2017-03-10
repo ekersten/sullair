@@ -33,7 +33,7 @@ class User extends BaseModel
         ],
         'password' => [
             'label' => 'trans::admin::users.password',
-            'type' => 'bsText',
+            'type' => 'bsPassword',
             'update' => true,
             'create' => true
         ],
