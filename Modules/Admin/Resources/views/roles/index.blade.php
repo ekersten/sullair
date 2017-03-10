@@ -11,7 +11,7 @@
 @stop
 
 @section('content')
-    <div class="row">
+    <div class="row form-group">
         <div class="col-md-12">
             <button class="btn btn-primary" data-toggle="modal" data-target="#modalCreate">{{ trans('admin::admin.create') }} {{ trans('admin::roles.role') }}</button>
         </div>

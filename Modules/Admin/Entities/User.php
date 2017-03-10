@@ -19,6 +19,7 @@ class User extends BaseModel
             'list' => true,
             'update' => true,
             'searchable' => true,
+            'orderable' => true,
             'create' => true,
         ],
         'last_name' => [
@@ -27,6 +28,7 @@ class User extends BaseModel
             'list' => true,
             'update' => true,
             'searchable' => true,
+            'orderable' => true,
             'create' => true,
         ],
         'password' => [

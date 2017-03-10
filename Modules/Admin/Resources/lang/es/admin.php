@@ -22,5 +22,17 @@ return [
     'field_email'                   => 'El campo debe ser una dirección de email válida',
     'field_unique'                  => 'El valor ingresado ya está en uso',
     'field_same'                    => 'El valor ingresado no coincide',
+    'search'                        => 'Buscar',
+    'first'                         => 'Primer',
+    'last'                          => 'Última',
+    'next'                          => 'Siguiente',
+    'previous'                      => 'Anterior',
+    'empty'                         => 'Vacío',
+    'show'                          => 'Mostrar',
+    'showing'                       => 'Mostrando',
+    'records'                       => 'registros',
+    'to'                            => 'a',
+    'of'                            => 'de',
+
 
 ];

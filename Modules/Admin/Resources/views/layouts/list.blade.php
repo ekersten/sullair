@@ -1,7 +1,6 @@
 @extends('adminlte::page')
 
 @section('css')
-    {{ Html::style('modules/admin/vendor/datatables/media/css/jquery.dataTables.min.css') }}
     {{ Html::style('modules/admin/vendor/datatables/media/css/dataTables.bootstrap.min.css') }}
     {{ Html::style('modules/admin/vendor/bootstrap3-dialog/dist/css/bootstrap-dialog.min.css') }}
     {{ Html::style('modules/admin/vendor/toastr/toastr.min.css') }}
@@ -27,15 +26,26 @@
                 search: {
                     caseInsensitive: true
                 },
-                order: [[2, "asc"]],
                 ajax: '{{ request()->url() }}',
                 columns: [
                     @foreach($fields as $field => $props)
-                    { data: '{{ $field }}', searchable: '{{ (boolval($props['searchable'])) ? 'true' : 'false' }}', orderable: '{{ (boolval($props['orderable'])) ? 'true' : 'false' }}', className: '{{ $props['className'] }}'},
+                    { data: '{{ $field }}', searchable: {{ (boolval($props['searchable'])) ? 'true' : 'false' }}, orderable: {{ (boolval($props['orderable'])) ? 'true' : 'false' }}, className: '{{ $props['className'] }}'},
                     @endforeach
                 ],
+                order: [],
                 language: {
-                    processing: '<i class="fa fa-cog fa-spin fa-fw loading fa-2x"></i>'
+                    processing: '<i class="fa fa-cog fa-spin fa-fw loading fa-2x"></i>',
+                    search: '{{ trans('admin::admin.search') }}: ',
+                    paginate: {
+                        first: '<i class="fa fa-fast-backward"></i>',
+                        last: '<i class="fa fa-fast-forward"></i>',
+                        next: '<i class="fa fa-chevron-right"></i>',
+                        previous: '<i class="fa fa-chevron-left"></i>'
+                    },
+                    emptyTable: '{{ trans('admin::admin.empty') }}',
+                    zeroRecords: '{{ trans('admin::admin.empty') }}',
+                    lengthMenu: '{{ trans('admin::admin.show') }} &nbsp;&nbsp; _MENU_ &nbsp;&nbsp; {{ trans('admin::admin.records') }}',
+                    info: '{{ trans('admin::admin.showing') }} _START_ {{ trans('admin::admin.to') }} _END_ {{ trans('admin::admin.of') }} _TOTAL_ {{ trans('admin::admin.records') }}'
                 }
             });
 
