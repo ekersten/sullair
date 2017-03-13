@@ -8,6 +8,7 @@ use Modules\Admin\Entities\Role;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Nwidart\Modules\Facades\Module;
 use Illuminate\Http\JsonResponse;
+use Modules\Core\Http\Controllers\GenericAdminController;
 
 
 class RoleController extends GenericAdminController

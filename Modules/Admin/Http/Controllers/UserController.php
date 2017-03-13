@@ -10,6 +10,7 @@ use Illuminate\Http\Response;
 use Modules\Admin\Entities\Role;
 use Modules\Admin\Entities\User;
 use Illuminate\Http\JsonResponse;
+use Modules\Core\Http\Controllers\GenericAdminController;
 
 class UserController extends GenericAdminController {
 

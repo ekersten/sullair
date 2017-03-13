@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Admin\Http\Controllers;
+namespace Modules\Core\Http\Controllers;
 
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Illuminate\Http\Request;
