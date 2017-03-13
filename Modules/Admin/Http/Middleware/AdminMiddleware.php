@@ -18,7 +18,7 @@ class AdminMiddleware
     public function handle(Request $request, Closure $next)
     {
         if ($user = Sentinel::getUser()) {
-            if (!Sentinel::inRole('administrator')) {
+            if (!$user->hasAccess('admin.browse')) {
                 return redirect()->route('admin.login');
             }
         } else {

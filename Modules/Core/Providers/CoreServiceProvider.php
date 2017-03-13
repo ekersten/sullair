@@ -27,6 +27,7 @@ class CoreServiceProvider extends ServiceProvider
 
         Form::component('bsText', 'core::components.form.text', ['name', 'label', 'value' => null, 'attributes' => []]);
         Form::component('bsPassword', 'core::components.form.password', ['name', 'label', 'value' => null, 'attributes' => []]);
+        Form::component('select2', 'core::components.form.select2', ['name', 'label', 'options' => null, 'selected' => null, 'attributes' => []]);
     }
 
     /**

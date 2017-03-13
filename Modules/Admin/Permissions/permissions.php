@@ -9,4 +9,5 @@ return [
     'roles.read',
     'roles.update',
     'roles.delete',
+    'admin.browse',
 ];

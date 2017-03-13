@@ -1,5 +1,37 @@
 @extends('adminlte::page')
 
+@section('content')
+    <!-- Modal -->
+    <div class="modal fade" id="modalCreate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                {!! Form::open(['method' => 'POST', 'route' => $store_route, 'role' => 'form'])  !!}
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">{{ trans('admin::admin.close') }}</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        {{ trans('admin::admin.create') }}
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        @foreach($create_fields as $field => $props)
+                            {!! call_user_func(array('Form', $props['type']), $field, $props['label']) !!}
+                        @endforeach
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('admin::admin.close') }}</button>
+                    {!! Form::submit(trans('admin::admin.save'),['class'=>'btn btn-primary'])  !!}
+                </div>
+                {!! Form::close() !!}
+            </div>
+        </div>
+    </div>
+@stop
+
 @section('css')
     {{ Html::style('modules/admin/vendor/datatables/media/css/dataTables.bootstrap.min.css') }}
     {{ Html::style('modules/admin/vendor/bootstrap3-dialog/dist/css/bootstrap-dialog.min.css') }}
@@ -47,6 +79,42 @@
                     lengthMenu: '{{ trans('admin::admin.show') }} &nbsp;&nbsp; _MENU_ &nbsp;&nbsp; {{ trans('admin::admin.records') }}',
                     info: '{{ trans('admin::admin.showing') }} _START_ {{ trans('admin::admin.to') }} _END_ {{ trans('admin::admin.of') }} _TOTAL_ {{ trans('admin::admin.records') }}'
                 }
+            });
+
+            $('#modalCreate').on('click',  '.btn[type="submit"]', function(e){
+                e.preventDefault();
+
+                // remove previous errors
+                $('.form-group.has-error').removeClass('has-error').find('.help-block').remove();
+
+                var $form = $('#modalCreate form');
+                $.ajax($form.attr('action'), {
+                    dataType: 'json',
+                    method: $form.attr('method'),
+                    data: $form.serialize(),
+                    success: function(data) {
+                        $('.modal').modal('hide');
+                        $('#modalCreate form')[0].reset()
+                        $('#mainTable').dataTable().api().ajax.reload();
+
+                        if (data.redirect) {
+                            window.location.href = data.redirect;
+                        }
+                    },
+                    error: function (request) {
+                        if(request.status === 422) {
+                            for(errorField in request.responseJSON) {
+                                if(request.responseJSON.hasOwnProperty(errorField)) {
+                                    var $field = $('#'+errorField);
+                                    var $formGroup = $field.closest('.form-group')
+
+                                    $formGroup.addClass('has-error');
+                                    $formGroup.append('<p class="help-block">' + request.responseJSON[errorField][0] + '</p>')
+                                }
+                            }
+                        }
+                    }
+                });
             });
 
             $('#mainTable tbody').on('click','.btn[rel="delete"]',function(e) {

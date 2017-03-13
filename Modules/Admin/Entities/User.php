@@ -21,6 +21,7 @@ class User extends BaseModel
             'searchable' => true,
             'orderable' => true,
             'create' => true,
+            'validation' => 'required'
         ],
         'last_name' => [
             'label' => 'trans::admin::users.last_name',
@@ -30,18 +31,21 @@ class User extends BaseModel
             'searchable' => true,
             'orderable' => true,
             'create' => true,
+            'validation' => 'required'
         ],
         'email' => [
             'label' => 'trans::admin::users.email',
             'type' => 'bsText',
             'update' => true,
             'create' => true,
+            'validation' => 'required|email'
         ],
         'password' => [
             'label' => 'trans::admin::users.password',
             'type' => 'bsPassword',
             'update' => true,
-            'create' => true
+            'create' => true,
+            'validation' => 'required'
         ],
         'last_login' => [
             'label' => 'trans::admin::users.last_login',
@@ -50,4 +54,8 @@ class User extends BaseModel
             'transform' => 'timeAgo',
         ]
     ];
+
+    public function roles() {
+        return $this->belongsToMany(Role::class, 'role_users');
+    }
 }

@@ -27,4 +27,8 @@ class Role extends BaseModel
         'slug' => []
     ];
 
+    public function users() {
+        return $this->belongsToMany(User::class, 'role_users');
+    }
+
 }

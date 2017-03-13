@@ -37,7 +37,11 @@ class RoleController extends GenericAdminController
         ]);
 
         if ($role) {
-            return redirect()->route($this->edit_route, $role->id);
+            if($request->ajax()) {
+                return new JsonResponse($role, 201);
+            } else {
+                return redirect()->route($this->edit_route, $role->id);
+            }
         }
     }
 
