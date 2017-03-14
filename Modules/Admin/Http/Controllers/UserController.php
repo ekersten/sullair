@@ -12,7 +12,8 @@ use Modules\Admin\Entities\User;
 use Illuminate\Http\JsonResponse;
 use Modules\Core\Http\Controllers\GenericAdminController;
 
-class UserController extends GenericAdminController {
+class UserController extends GenericAdminController
+{
 
     protected $model = User::class;
 
@@ -46,7 +47,7 @@ class UserController extends GenericAdminController {
         $user = Sentinel::registerAndActivate($credentials);
 
         if ($user) {
-            if($request->ajax()) {
+            if ($request->ajax()) {
                 return new JsonResponse([
                     'user' => $user,
                     'redirect' => route($this->edit_route, $user->id)
@@ -87,7 +88,7 @@ class UserController extends GenericAdminController {
 
         $roles = $request->input('roles', []);
 
-        foreach($roles as $role) {
+        foreach ($roles as $role) {
             $role = Sentinel::findRoleById($role);
             $role->users()->attach($user);
         }
@@ -102,9 +103,10 @@ class UserController extends GenericAdminController {
 
     }
 
-    protected function timeAgo($row) {
+    protected function timeAgo($row)
+    {
         if (isset($row->last_login) && $row->last_login !== '') {
-            $dt =  new Carbon($row->last_login);
+            $dt = new Carbon($row->last_login);
             return $dt->diffForHumans();
         } else {
             return trans('admin::users.never');

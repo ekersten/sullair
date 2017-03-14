@@ -3,7 +3,6 @@
 namespace Modules\Admin\Entities;
 
 
-
 use Modules\Core\Entities\BaseModel;
 
 class Role extends BaseModel
@@ -27,7 +26,8 @@ class Role extends BaseModel
         'slug' => []
     ];
 
-    public function users() {
+    public function users()
+    {
         return $this->belongsToMany(User::class, 'role_users');
     }
 

@@ -9,7 +9,8 @@ use Illuminate\Routing\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 
-class GenericAdminController extends Controller {
+class GenericAdminController extends Controller
+{
 
     use ValidatesRequests;
 
@@ -30,7 +31,8 @@ class GenericAdminController extends Controller {
      * Display a listing of the resource.
      * @return Response
      */
-    public function index(Request $request) {
+    public function index(Request $request)
+    {
 
         if ($request->ajax()) {
             return $this->getData();
@@ -39,7 +41,7 @@ class GenericAdminController extends Controller {
             $create_fields = $this->model::getCreateFields();
 
             // agregar la columna de acciones solo si puede editar o eliminar
-            if($this->hasActionsColumn()) {
+            if ($this->hasActionsColumn()) {
                 $fields['actions'] = [
                     'label' => trans('admin::admin.actions'),
                     'searchable' => false,
@@ -62,7 +64,8 @@ class GenericAdminController extends Controller {
      * Show the form for creating a new resource.
      * @return Response
      */
-    public function create() {
+    public function create()
+    {
         return view('admin::users.edit');
     }
 
@@ -79,7 +82,8 @@ class GenericAdminController extends Controller {
      * Show the specified resource.
      * @return Response
      */
-    public function show(Request $request) {
+    public function show(Request $request)
+    {
         $item = $this->model::get($id);
         if ($item) {
             if ($request->ajax()) {
@@ -97,7 +101,8 @@ class GenericAdminController extends Controller {
      * Show the form for editing the specified resource.
      * @return Response
      */
-    public function edit(Request $request, $id) {
+    public function edit(Request $request, $id)
+    {
         $item = $this->model::find($id);
         if ($item) {
             if ($request->ajax()) {
@@ -127,22 +132,21 @@ class GenericAdminController extends Controller {
     {
         $item = $this->model::findOrFail($id);
 
-        if($item->delete()){
+        if ($item->delete()) {
             $response = trans('admin::admin.deleted');
-        }
-        else{
+        } else {
             $response = trans('admin::admin.error_delete');
         }
 
         if ($request->ajax() || $request->wantsJson()) {
             return new JsonResponse($response, 200);
-        }
-        else{
+        } else {
             return redirect()->route($this->index_route)->with('flashSuccess', $response);
         }
     }
 
-    private function getPermissions() {
+    private function getPermissions()
+    {
         if ($user = Sentinel::getUser()) {
             if ($this->permissions_prefix !== '') {
                 return [
@@ -157,10 +161,11 @@ class GenericAdminController extends Controller {
         }
     }
 
-    private function getData() {
+    private function getData()
+    {
         $fields = $this->model::getListFields();
         $list_fields = [];
-        foreach($fields as $field => $field_props){
+        foreach ($fields as $field => $field_props) {
             $list_fields[] = $field;
         }
 
@@ -169,16 +174,16 @@ class GenericAdminController extends Controller {
         // agregar la columna de acciones solo si puede editar o eliminar
         $permissions = $this->getPermissions();
 
-        if($this->hasActionsColumn()) {
-            $datatable->addColumn('actions', function($item) use($permissions) {
+        if ($this->hasActionsColumn()) {
+            $datatable->addColumn('actions', function ($item) use ($permissions) {
                 $actions = '<div class="btn-group btn-group-sm" role="group" aria-label="Actions">';
 
-                if($permissions['update'] == true) {
-                    $actions .= '<a href="' . route($this->edit_route, $item->id) . '" class="btn btn-warning"><i class="fa fa-pencil"></i> ' . trans('admin::admin.edit') .'</a>';
+                if ($permissions['update'] == true) {
+                    $actions .= '<a href="' . route($this->edit_route, $item->id) . '" class="btn btn-warning"><i class="fa fa-pencil"></i> ' . trans('admin::admin.edit') . '</a>';
                 }
 
-                if($permissions['delete'] == true) {
-                    $actions .= '<a href="' . route($this->delete_route, $item->id) . '" class="btn btn-danger" rel="delete"><i class="fa fa-trash"></i> ' . trans('admin::admin.delete') .'</a>';
+                if ($permissions['delete'] == true) {
+                    $actions .= '<a href="' . route($this->delete_route, $item->id) . '" class="btn btn-danger" rel="delete"><i class="fa fa-trash"></i> ' . trans('admin::admin.delete') . '</a>';
                 }
 
                 $actions .= '</div>';
@@ -187,17 +192,17 @@ class GenericAdminController extends Controller {
             });
         }
 
-        if($this->hasTransformFields()) {
+        if ($this->hasTransformFields()) {
             $fields = $this->model::getTransformFields();
             foreach ($fields as $field => $props) {
-                $datatable->editColumn($field, function($item) use($props) {
+                $datatable->editColumn($field, function ($item) use ($props) {
                     return call_user_func(array($this, $props['transform']), $item);
                 });
             }
         }
 
 
-        if($this->hasActionsColumn()) {
+        if ($this->hasActionsColumn()) {
             return $datatable->rawColumns(['actions'])->make(true);
         } else {
             return $datatable->make(true);
@@ -205,29 +210,32 @@ class GenericAdminController extends Controller {
 
     }
 
-    private function hasTransformFields() {
-        $fields = array_filter($this->model::getListFields(), function($field){
+    private function hasTransformFields()
+    {
+        $fields = array_filter($this->model::getListFields(), function ($field) {
             return $field['transform'] !== false;
         });
 
         return count($fields) >= 0;
     }
 
-    private function hasActionsColumn() {
+    private function hasActionsColumn()
+    {
         $permissions = $this->getPermissions();
 
-        if($permissions['update'] || $permissions['delete'] || $this->permissions_prefix == '') {
+        if ($permissions['update'] || $permissions['delete'] || $this->permissions_prefix == '') {
             return true;
         }
 
         return false;
     }
 
-    protected function getValidationArray($fields) {
+    protected function getValidationArray($fields)
+    {
         $validation_fields = $this->model::getValidationFields($fields);
         $return_fields = [];
 
-        foreach($validation_fields as $field => $props) {
+        foreach ($validation_fields as $field => $props) {
             $return_fields[$field] = $props['validation'];
         }
 
