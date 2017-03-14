@@ -18,6 +18,10 @@ class AdminMiddleware
     public function handle(Request $request, Closure $next)
     {
         if ($user = Sentinel::getUser()) {
+            if($user->inRole('superadmin')) {
+                return $next($request);
+            }
+
             if (!$user->hasAccess('admin.browse')) {
                 return redirect()->route('admin.login');
             }

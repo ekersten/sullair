@@ -178,11 +178,11 @@ class GenericAdminController extends Controller
             $datatable->addColumn('actions', function ($item) use ($permissions) {
                 $actions = '<div class="btn-group btn-group-sm" role="group" aria-label="Actions">';
 
-                if ($permissions['update'] == true) {
+                if ($permissions['update'] == true || Sentinel::getUser()->inRole('superadmin')) {
                     $actions .= '<a href="' . route($this->edit_route, $item->id) . '" class="btn btn-warning"><i class="fa fa-pencil"></i> ' . trans('admin::admin.edit') . '</a>';
                 }
 
-                if ($permissions['delete'] == true) {
+                if ($permissions['delete'] == true || Sentinel::getUser()->inRole('superadmin')) {
                     $actions .= '<a href="' . route($this->delete_route, $item->id) . '" class="btn btn-danger" rel="delete"><i class="fa fa-trash"></i> ' . trans('admin::admin.delete') . '</a>';
                 }
 
@@ -221,6 +221,10 @@ class GenericAdminController extends Controller
 
     private function hasActionsColumn()
     {
+        if(Sentinel::getUser()->inRole('superadmin')) {
+            return true;
+        }
+
         $permissions = $this->getPermissions();
 
         if ($permissions['update'] || $permissions['delete'] || $this->permissions_prefix == '') {

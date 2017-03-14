@@ -31,7 +31,7 @@ class MenuPermissionFilter implements FilterInterface
     protected function isVisible($item) {
         if ($user = Sentinel::getUser()) {
             if (isset($item['can'])) {
-                return $user->hasAccess($item['can']);
+                return $user->hasAccess($item['can']) || $user->inRole('superadmin');
             } else {
                 return true;
             }
