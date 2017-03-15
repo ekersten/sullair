@@ -33,6 +33,7 @@ return [
     'records'                       => 'registros',
     'to'                            => 'a',
     'of'                            => 'de',
+    'resetpassword'                 => 'Reestablecer contraseña',
 
 
 ];

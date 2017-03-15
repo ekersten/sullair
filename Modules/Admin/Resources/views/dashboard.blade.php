@@ -8,7 +8,4 @@
 
 @section('content')
     <p>Dashboard placeholder</p>
-    <a href="{{ route('admin.login') }}">login</a>
-    <a href="{{ route('admin.email') }}">email</a>
-    <a href="{{ route('admin.reset') }}">reset</a>
 @stop
